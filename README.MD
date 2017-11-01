@@ -25,8 +25,16 @@
  ## 开发计划：
   基于用户的反馈，修复完善或者添加以下功能(欢迎在Issues反馈)：
 
-- [] 解决部分机型闪退或者崩溃问题
-- [] 完善妹子页面图片加载缓存问题
-- [] 添加左右滑动切换妹子图片功能
-- [] 缓存WebView，提供离线阅读
+- [ ] 解决部分机型闪退或者崩溃问题
+- [ ] 完善妹子页面图片加载缓存问题
+- [ ] 添加左右滑动切换妹子图片功能
+- [ ] 缓存WebView，提供离线阅读
 ## 特别鸣谢：
+* [@代码家](https://github.com/daimajia)
+* [@Mr.Simple](http://blog.csdn.net/bboyfeiyu/article/details/39935329)
+* [#Retrofit](https://github.com/square/retrofit)
+* [#ASimpleCache](https://github.com/yangfuhai/ASimpleCache)
+* [#Android-Universal-Image-Loader](https://github.com/nostra13/Android-Universal-Image-Loader)
+* [众多的开源党](https://github.com/)
+*****
+## About Me
