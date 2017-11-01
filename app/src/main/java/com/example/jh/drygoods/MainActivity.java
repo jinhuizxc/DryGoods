@@ -186,24 +186,48 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_main) {
-            // Handle the camera action
+            resetAllByFlag(flags[0]);
         } else if (id == R.id.nav_welfare) {
-
+            resetAllByFlag(flags[1]);
         } else if (id == R.id.nav_android) {
-
+            resetAllByFlag(flags[2]);
         } else if (id == R.id.nav_ios) {
-
+            resetAllByFlag(flags[3]);
+        }else if(id == R.id.nav_js){
+            resetAllByFlag(flags[4]);
         } else if (id == R.id.nav_recommend) {
-
+            resetAllByFlag(flags[5]);
         } else if (id == R.id.nav_video) {
-
+            resetAllByFlag(flags[6]);
         } else if (id == R.id.nav_expand) {
-
+            resetAllByFlag(flags[7]);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void resetAllByFlag(String flag) {
+        // set Title
+        mToolbar.setTitle(flag);
+        if(flag.equals(Constants.FLAG_All)){
+            mToolbar.setTitle(R.string.app_name);
+        }
+        // clear data
+        currentFlag = flag;
+        currentIndex = 1;
+        mAdapter.clearDatas();
+
+        // reset listview
+        if (android.os.Build.VERSION.SDK_INT >= 19) {
+            mListView.smoothScrollToPosition(0);
+        } else {
+            mListView.setSelection(0);
+        }
+
+        // get new data
+        startRefresh();
     }
 
     @Override
