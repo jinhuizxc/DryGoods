@@ -7,4 +7,6 @@
   干货集中营安卓客户端，随时随地了解技术最新动态(MeiZi)。除周末部分节假日外，每日更新一个美图，一个小视频，以及各类技术最新文章。
 ## 界面预览：
 ![](http://ww2.sinaimg.cn/large/005Xtdi2jw1f304pnc0h5j30sg0lcn3p.jpg)
-<img src="http://ww2.sinaimg.cn/large/005Xtdi2jw1f304pnc0h5j30sg0lcn3p.jpg"/>
+## 下载应用
+<img src="http://ww1.sinaimg.cn/large/005Xtdi2jw1f306z4hhcwj30b40b4ab5.jpg" width=240/>
+[**【扫描二维码或点击这里获取应用】**](http://fir.im/GankByGcsSloop)
