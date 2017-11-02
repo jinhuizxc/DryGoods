@@ -1,5 +1,7 @@
 package com.example.jh.drygoods;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -36,7 +38,7 @@ import java.util.List;
  * 学习下数据缓存、网络请求
  */
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, RefreshLayout.OnLoadListener {
 
     private Toolbar mToolbar;
     // 定义各类标签
@@ -60,6 +62,13 @@ public class MainActivity extends AppCompatActivity
         mCache = ACache.get(getApplicationContext());
         initViews();
         startRefresh();
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopAllState();
     }
 
     private void startRefresh() {
@@ -105,7 +114,7 @@ public class MainActivity extends AppCompatActivity
         mRefreshLayout = findViewById(R.id.id_swipe_ly);
         mRefreshLayout.setOnRefreshListener(this);
         // 上拉监听器, 到了最底部的上拉加载操作
-//        mRefreshLayout.setOnLoadListener(this);
+        mRefreshLayout.setOnLoadListener(this);
 
         mAdapter = new GankCommonAdapter(this, null);
         mListView = findViewById(R.id.id_listview);
@@ -128,8 +137,8 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(MainActivity.this, "数据加载出错", Toast.LENGTH_SHORT).show();
             }
             // 加入缓存
-//            mCache.put(key,commonDate,ACache.TIME_DAY*7);
-//            L.e("cache key =" + key);
+            mCache.put(key,commonDate,ACache.TIME_DAY*7);
+            L.e("cache key =" + key);
 
             List<CommonDate.ResultsEntity> datas = commonDate.getResults();
             mAdapter.addDatas(datas);
@@ -138,6 +147,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onFailure(String flag, String key, String why) {
             L.e("onFailure：" + why);
+            stopAllState();
         }
     };
 
@@ -234,13 +244,13 @@ public class MainActivity extends AppCompatActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.head_img:
-                Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
+                showByUrl(Constants.URL_GANK);
                 break;
             case R.id.head_name:
                 Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.head_web:
-                Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
+                showByUrl(Constants.URL_Github);
                 break;
         }
     }
@@ -270,10 +280,35 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void getDataFromCache(String key) {
+        L.e("get data key="+key);
+        CommonDate data = (CommonDate) mCache.getAsObject(key);
+        if(data != null){
+            mAdapter.addDatas(data.getResults());
+        }
+        stopAllState();
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        CommonDate.ResultsEntity data = mAdapter.getDataById(position);
+        if (data.getType().equals(Constants.FLAG_Meizi)){
+            Intent intent = new Intent(this, ImageActivity.class);
+            intent.putExtra(Constants.key_imgurl, data.getUrl());
+            startActivity(intent);
+        }else {
+            showByUrl(data.getUrl());
+        }
+    }
+    // 除了福利外都是链接访问。
+    private void showByUrl(String url) {
+        Intent ie = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(ie);
+    }
 
+    @Override
+    public void onLoad() {
+        L.e("onLoad");
+        currentIndex++;
+        getData();
     }
 }

@@ -29,6 +29,9 @@ public class GankApi {
                     if(!commonDate.isError()){
                         // 数据正确，把数据返回
                         callBack.onSuccess(type, key, commonDate);
+                    }else {
+                        //数据错误
+                        callBack.onFailure(type, key, "数据错误");
                     }
                 }
             }
@@ -36,6 +39,8 @@ public class GankApi {
             @Override
             public void onFailure(Throwable t) {
                 L.e("getCommonData-----onFailure：" + t.toString());
+                //数据错误
+                callBack.onFailure(type, key, "请求失败");
             }
         });
         return commonDate;
